@@ -8,6 +8,7 @@ const HomePage: React.FC = () => {
 	const viewerRef = useRef<HTMLDivElement>(null);
 	const viewerInstance = useRef<OpenSeadragon.Viewer | null>(null);
 	const [currentIndex, setCurrentIndex] = useState(0);
+	const [markers, setMarkers] = useState<OpenSeadragon.Point[]>([]);
 
 	const getImagemByIndex = (index: number) => {
 		const imagens = {
@@ -29,16 +30,15 @@ const HomePage: React.FC = () => {
 		return imagens.data[index];
 	};
 
-	// 🧠 Função para desenhar o quadrado
-	const desenharQuadrado = (index: number) => {
+	// Função para desenhar quadrado e marcadores
+	const desenharOverlays = () => {
 		const viewer = viewerInstance.current;
 		if (!viewer) return;
 
-		// Remove quadrados anteriores
 		viewer.clearOverlays();
 
-		// Adiciona o novo quadrado
-		const pos = new OpenSeadragon.Rect(...getImagemByIndex(index).coordenadas_quadrado);
+		// Desenha o quadrado existente
+		const pos = new OpenSeadragon.Rect(...getImagemByIndex(currentIndex).coordenadas_quadrado);
 		const square = document.createElement("div");
 		square.style.border = "3px solid red";
 		square.style.width = "100px";
@@ -52,6 +52,23 @@ const HomePage: React.FC = () => {
 			element: square,
 			location: pos,
 			placement: OpenSeadragon.OverlayPlacement.CENTER,
+		});
+
+		// Desenha todos os marcadores
+		markers.forEach((point) => {
+			const circle = document.createElement("div");
+			circle.style.width = "20px";
+			circle.style.height = "20px";
+			circle.style.borderRadius = "50%";
+			circle.style.background = "red";
+			circle.style.border = "2px solid white";
+			circle.style.pointerEvents = "none";
+
+			viewer.addOverlay({
+				element: circle,
+				location: point,
+				placement: OpenSeadragon.OverlayPlacement.CENTER,
+			});
 		});
 	};
 
@@ -77,27 +94,28 @@ const HomePage: React.FC = () => {
 		viewerInstance.current = viewer;
 
 		viewer.addHandler("open", () => {
-			desenharQuadrado(currentIndex);
+			desenharOverlays();
+		});
+
+		// Clique para adicionar marcador
+		viewer.addHandler("canvas-click", (event) => {
+			event.preventDefaultAction = true; // Evita zoom no clique
+			const webPoint = event.position;
+			const viewportPoint = viewer.viewport.pointFromPixel(webPoint);
+			setMarkers((prev) => [...prev, viewportPoint]);
 		});
 
 		return () => viewer.destroy();
-	}, []);
-
-	// 🔁 Atualiza o quadrado quando currentIndex muda
-	useEffect(() => {
-		if (viewerInstance.current) {
-			desenharQuadrado(currentIndex);
-		}
 	}, [currentIndex]);
 
-	// 🔘 Navegação
-	const handlePrev = () => {
-		setCurrentIndex((prev) => (prev === 0 ? 2 : prev - 1));
-	};
+	// Redesenha overlays quando marcadores mudam
+	useEffect(() => {
+		desenharOverlays();
+	}, [markers, currentIndex]);
 
-	const handleNext = () => {
-		setCurrentIndex((prev) => (prev === 2 ? 0 : prev + 1));
-	};
+	// Navegação
+	const handlePrev = () => setCurrentIndex((prev) => (prev === 0 ? 2 : prev - 1));
+	const handleNext = () => setCurrentIndex((prev) => (prev === 2 ? 0 : prev + 1));
 
 	return (
 		<div>
@@ -107,18 +125,10 @@ const HomePage: React.FC = () => {
 				<div
 					ref={viewerRef}
 					className="viewer-container"
-					style={{
-						width: "100%",
-						height: "100vh",
-						position: "absolute",
-						top: 0,
-						left: 0,
-						zIndex: 0,
-					}}
+					style={{ width: "100%", height: "100vh", position: "absolute", top: 0, left: 0, zIndex: 0 }}
 				/>
 			</div>
 
-			{/* Imagem no canto superior direito */}
 			<div className="overlay-top-right" style={{ position: "absolute", top: 20, right: 20 }}>
 				<img
 					src={getImagemByIndex(currentIndex).diretorio}
