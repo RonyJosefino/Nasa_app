@@ -9,6 +9,8 @@ const HomePage: React.FC = () => {
 	const viewerInstance = useRef<OpenSeadragon.Viewer | null>(null);
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [markers, setMarkers] = useState<OpenSeadragon.Point[]>([]);
+	const [gabaritoVisivel, setGabaritoVisivel] = useState(true);
+
 
 	const getImagemByIndex = (index: number) => {
 		const imagens = {
@@ -57,13 +59,33 @@ const HomePage: React.FC = () => {
 			placement: OpenSeadragon.OverlayPlacement.CENTER,
 		});
 
-		// Desenha todos os marcadores existentes
+		// Desenha o marcador do gabarito se estiver visível
+		if (gabaritoVisivel) {
+			const pinos = getImagemByIndex(currentIndex).coordenadas_pino_gabarito;
+			if (pinos) {
+				const gabaritoCircle = document.createElement("div");
+				gabaritoCircle.style.width = "10px";
+				gabaritoCircle.style.height = "10px";
+				gabaritoCircle.style.borderRadius = "50%";
+				gabaritoCircle.style.background = "blue";
+				gabaritoCircle.style.border = "2px solid white";
+				gabaritoCircle.style.pointerEvents = "none";
+
+				viewer.addOverlay({
+					element: gabaritoCircle,
+					location: new OpenSeadragon.Point(pinos[0], pinos[1]),
+					placement: OpenSeadragon.OverlayPlacement.CENTER,
+				});
+			}
+		}
+
+		// Desenha todos os marcadores adicionados manualmente
 		markers.forEach((point) => {
 			const circle = document.createElement("div");
 			circle.style.width = "10px";
 			circle.style.height = "10px";
 			circle.style.borderRadius = "50%";
-			circle.style.background = "blue"; // Azul para gabarito
+			circle.style.background = "red";
 			circle.style.border = "2px solid white";
 			circle.style.pointerEvents = "none";
 
@@ -97,33 +119,29 @@ const HomePage: React.FC = () => {
 		viewerInstance.current = viewer;
 
 		viewer.addHandler("open", () => {
-			// Carrega automaticamente os marcadores do gabarito ao abrir a imagem
-			const pinos = getImagemByIndex(currentIndex).coordenadas_pino_gabarito;
-			if (pinos) {
-				setMarkers([new OpenSeadragon.Point(pinos[0], pinos[1])]);
-			}
 			desenharOverlays();
 		});
 
 		// Clique para adicionar marcador manual
 		viewer.addHandler("canvas-click", (event) => {
-			event.preventDefaultAction = true; // Evita zoom no clique
+			event.preventDefaultAction = true;
 			const webPoint = event.position;
 			const viewportPoint = viewer.viewport.pointFromPixel(webPoint);
 			setMarkers((prev) => [...prev, viewportPoint]);
 		});
 
 		return () => viewer.destroy();
-	}, [currentIndex]);
+	}, [currentIndex, gabaritoVisivel]);
 
-	// Redesenha overlays quando marcadores mudam
+	// Redesenha overlays quando marcadores ou visibilidade mudam
 	useEffect(() => {
 		desenharOverlays();
-	}, [markers, currentIndex]);
+	}, [markers, currentIndex, gabaritoVisivel]);
 
 	// Navegação
 	const handlePrev = () => setCurrentIndex((prev) => (prev === 0 ? 2 : prev - 1));
 	const handleNext = () => setCurrentIndex((prev) => (prev === 2 ? 0 : prev + 1));
+	const toggleGabarito = () => setGabaritoVisivel((prev) => !prev);
 
 	return (
 		<div>
@@ -143,11 +161,19 @@ const HomePage: React.FC = () => {
 					alt="preview"
 					style={{ width: "150px", borderRadius: "10px", border: "2px solid white" }}
 				/>
-				<div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
-					<button onClick={handlePrev} style={{ marginRight: "10px" }}>
-						⬅️
+				<div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "10px" }}>
+					<div style={{ display: "flex", justifyContent: "center" }}>
+						<button onClick={handlePrev} style={{ marginRight: "10px" }}>
+							⬅️
+						</button>
+						<button onClick={handleNext}>➡️</button>
+					</div>
+					<button
+						onClick={toggleGabarito}
+						style={{ marginTop: "10px", padding: "5px 10px", borderRadius: "5px" }}
+					>
+						{gabaritoVisivel ? "Ocultar Gabarito" : "Mostrar Gabarito"}
 					</button>
-					<button onClick={handleNext}>➡️</button>
 				</div>
 			</div>
 		</div>
