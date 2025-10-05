@@ -22,7 +22,7 @@
   transform: translate(-50%, -50%); /* Centraliza o vídeo perfeitamente */
   
   min-width: 100%;
-  min-height: 150%;
+  min-height: 100%;
   width: auto;
   height: auto;
   
