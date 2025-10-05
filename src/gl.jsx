@@ -2,19 +2,18 @@ import React, { useEffect, useRef } from 'react';
 
 function WebGLCanvas() {
   const canvasRef = useRef(null);
+  const positionRef = useRef([0, 0]); // Track translation (x, y)
 
   useEffect(() => {
-    // Get the WebGL context from the canvas
     const canvas = canvasRef.current;
     let gl = canvas.getContext('webgl');
 
     if (!gl) {
-      console.log('WebGL not supported, falling back to experimental-webgl');
       gl = canvas.getContext('experimental-webgl');
     }
 
     if (!gl) {
-      alert('Your browser does not support WebGL');
+      alert('WebGL not supported');
       return;
     }
 
@@ -24,9 +23,12 @@ function WebGLCanvas() {
 
     // Define the vertices for a triangle
     const vertices = new Float32Array([
-      1.0,  1.0,
-     -1.0,  1.0,
-     -1.0, -1.0,
+      -0.1,  0.1,
+       0.1,  0.1,
+      -0.1, -0.1,
+      -0.1, -0.1,
+       0.1,  0.1,
+       0.1, -0.1,
     ]);
 
     // Create a buffer and put the vertices in it
@@ -37,8 +39,9 @@ function WebGLCanvas() {
     // Vertex shader
     const vsSource = `
       attribute vec2 a_position;
+      uniform vec2 u_translation;
       void main() {
-        gl_Position = vec4(a_position, 0.0, 1.0);
+        gl_Position = vec4(a_position + u_translation, 0.0, 1.0);
       }
     `;
     
@@ -68,12 +71,54 @@ function WebGLCanvas() {
 
     // Bind the position buffer
     const positionLocation = gl.getAttribLocation(program, 'a_position');
-    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(positionLocation);
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
 
-    // Draw the triangle
-    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    const translationLocation = gl.getUniformLocation(program, 'u_translation');
 
+    function drawScene() {
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.uniform2fv(translationLocation, positionRef.current);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+    }
+
+    drawScene();
+
+    const moveAmount = 0.02;
+    function handleKeyDown(e) {
+      const pos = positionRef.current;
+
+      switch (e.key) {
+        case 'ArrowUp':
+        case 'w':
+          pos[1] += moveAmount;
+          break;
+        case 'ArrowDown':
+        case 's':
+          pos[1] -= moveAmount;
+          break;
+        case 'ArrowLeft':
+        case 'a':
+          pos[0] -= moveAmount;
+          break;
+        case 'ArrowRight':
+        case 'd':
+          pos[0] += moveAmount;
+          break;
+        default:
+          return;
+      }
+
+      positionRef.current = [...pos];
+      drawScene();
+    }
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, []);
 
   // Utility function to compile shader
