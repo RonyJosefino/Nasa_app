@@ -3,20 +3,26 @@ import React, { useState } from 'react';
 import './Sidebar.css';
 import { FaAngleRight, FaAngleLeft } from 'react-icons/fa';
 
-const Sidebar: React.FC = () => {
+type Marker = {
+  id: number;
+  label: string;
+  color: string;
+};
+
+type SidebarProps = {
+  onAddMarkerClick: () => void;
+  markers: Marker[];
+  onDeleteMarker: (id: number) => void;
+};
+
+const Sidebar: React.FC<SidebarProps> = ({ onAddMarkerClick, markers, onDeleteMarker }) => {
   const [isOpen, setIsOpen] = useState(false);
-  
-  // 1. NOVO ESTADO: para controlar o dropdown de "Pin options"
   const [isPinOptionsOpen, setPinOptionsOpen] = useState(false);
+  const [isMarkersOpen, setIsMarkersOpen] = useState(false);
 
-  const handleToggle = () => {
-    setIsOpen(!isOpen);
-  };
-
-  // 2. NOVA FUNÇÃO: para controlar o toggle do dropdown
-  const handlePinOptionsToggle = () => {
-    setPinOptionsOpen(!isPinOptionsOpen);
-  };
+  const handleToggle = () => setIsOpen(!isOpen);
+  const handlePinOptionsToggle = () => setPinOptionsOpen(!isPinOptionsOpen);
+  const handleMarkersToggle = () => setIsMarkersOpen(!isMarkersOpen);
 
   return (
     <div className={`sidebar ${isOpen ? 'open' : ''}`}>
@@ -28,20 +34,52 @@ const Sidebar: React.FC = () => {
         <div className="sidebar-content">
           <h2>Menu</h2>
           <ul>
-            {/* 3. Item de menu agora é clicável */}
+            {/* --- PIN OPTIONS --- */}
             <li className="menu-item-toggle" onClick={handlePinOptionsToggle}>
               + Pin options
             </li>
-
-            {/* 4. SUBMENU: Renderizado condicionalmente e com classes dinâmicas */}
             <ul className={`submenu ${isPinOptionsOpen ? 'open' : ''}`}>
-              <li>Mark area</li>
-              <li>Add text</li>
-              
+              <li>Sub Opção 1</li>
+              <li>Sub Opção 2</li>
             </ul>
 
-            {/* Adicione outros itens de menu principais aqui, se desejar */}
-            
+            {/* --- MARCADORES --- */}
+            <li className="menu-item-toggle" onClick={handleMarkersToggle}>
+              📍 Marcadores 
+            </li>
+            <ul className={`submenu ${isMarkersOpen ? 'open' : ''}`}>
+              {/* --- ADICIONAR MARCADOR DENTRO DO SUBMENU --- */}
+              <li className="menu-item" onClick={onAddMarkerClick}>
+                + Adicionar Marcador
+              </li>
+              
+              {/* --- TÍTULO PARA A LISTA DE SENSORES ADICIONADO AQUI --- */}
+              <li className="submenu-title">Sensores Listados:</li>
+
+              {/* --- LISTA DE MARCADORES --- */}
+              {markers.length === 0 ? (
+                <li style={{ opacity: 0.7 }}>Nenhum marcador</li>
+              ) : (
+                markers.map(marker => (
+                  <li key={marker.id} className="marker-item">
+                    <span>
+                      <span
+                        style={{
+                          display: 'inline-block',
+                          width: '12px',
+                          height: '12px',
+                          backgroundColor: marker.color,
+                          marginRight: '6px',
+                          borderRadius: '2px',
+                        }}
+                      />
+                      {marker.label}
+                    </span>
+                    <button className="delete-button" onClick={() => onDeleteMarker(marker.id)}>✖</button>
+                  </li>
+                ))
+              )}
+            </ul>
           </ul>
         </div>
       )}
