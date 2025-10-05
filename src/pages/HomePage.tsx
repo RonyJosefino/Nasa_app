@@ -11,13 +11,12 @@ const HomePage: React.FC = () => {
 	const [markers, setMarkers] = useState<OpenSeadragon.Point[]>([]);
 	const [gabaritoVisivel, setGabaritoVisivel] = useState(true);
 
-
 	const getImagemByIndex = (index: number) => {
 		const imagens = {
 			data: [
 				{
 					diretorio: "tiles/night-sky_files/14/7_2.jpeg",
-					coordenadas_quadrado: [0.14, -0.015, 0.15, 0.15],
+					coordenadas_quadrado: [0.14, -0.00, 0.15, 0.15],
 					coordenadas_pino_gabarito: [0.1739653969924779, 0.0593560143486153],
 				},
 				{
@@ -34,6 +33,7 @@ const HomePage: React.FC = () => {
 		};
 		return imagens.data[index];
 	};
+
 
 	// Função para desenhar quadrado e marcadores
 	const desenharOverlays = () => {
@@ -142,6 +142,7 @@ const HomePage: React.FC = () => {
 	const handlePrev = () => setCurrentIndex((prev) => (prev === 0 ? 2 : prev - 1));
 	const handleNext = () => setCurrentIndex((prev) => (prev === 2 ? 0 : prev + 1));
 	const toggleGabarito = () => setGabaritoVisivel((prev) => !prev);
+	const limparMarkers = () => setMarkers([]); // Limpa os pinos vermelhos
 
 	return (
 		<div>
@@ -173,6 +174,12 @@ const HomePage: React.FC = () => {
 						style={{ marginTop: "10px", padding: "5px 10px", borderRadius: "5px" }}
 					>
 						{gabaritoVisivel ? "Ocultar Gabarito" : "Mostrar Gabarito"}
+					</button>
+					<button
+						onClick={limparMarkers}
+						style={{ marginTop: "10px", padding: "5px 10px", borderRadius: "5px" }}
+					>
+						Limpar Marcadores
 					</button>
 				</div>
 			</div>
