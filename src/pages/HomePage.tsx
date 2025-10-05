@@ -16,17 +16,17 @@ const HomePage: React.FC = () => {
 				{
 					diretorio: "tiles/night-sky_files/14/7_2.jpeg",
 					coordenadas_quadrado: [0.14, -0.015, 0.15, 0.15],
-					coordenadas_pino_gabarito: [0.6419981297168088, 0.012578777486416545],
+					coordenadas_pino_gabarito: [0.1739653969924779, 0.0593560143486153],
 				},
 				{
 					diretorio: "tiles/night-sky_files/14/6_8.jpeg",
 					coordenadas_quadrado: [0.10, 0.10, 0.15, 0.15],
-					coordenadas_pino_gabarito: [0.1739653969924779, 0.0593560143486153],
+					coordenadas_pino_gabarito: [0.15690454395618236, 0.21051408682326955],
 				},
 				{
 					diretorio: "tiles/night-sky_files/14/26_0.jpeg",
 					coordenadas_quadrado: [0.60, -0.025, 0.15, 0.15],
-					coordenadas_pino_gabarito: [0.15690454395618236, 0.21051408682326955],
+					coordenadas_pino_gabarito: [0.6419981297168088, 0.012578777486416545],
 				},
 			],
 		};
@@ -57,13 +57,13 @@ const HomePage: React.FC = () => {
 			placement: OpenSeadragon.OverlayPlacement.CENTER,
 		});
 
-		// Desenha todos os marcadores
+		// Desenha todos os marcadores existentes
 		markers.forEach((point) => {
 			const circle = document.createElement("div");
 			circle.style.width = "10px";
 			circle.style.height = "10px";
 			circle.style.borderRadius = "50%";
-			circle.style.background = "red";
+			circle.style.background = "blue"; // Azul para gabarito
 			circle.style.border = "2px solid white";
 			circle.style.pointerEvents = "none";
 
@@ -72,7 +72,6 @@ const HomePage: React.FC = () => {
 				location: point,
 				placement: OpenSeadragon.OverlayPlacement.CENTER,
 			});
-			console.log("Marcador adicionado em:", point);
 		});
 	};
 
@@ -98,10 +97,15 @@ const HomePage: React.FC = () => {
 		viewerInstance.current = viewer;
 
 		viewer.addHandler("open", () => {
+			// Carrega automaticamente os marcadores do gabarito ao abrir a imagem
+			const pinos = getImagemByIndex(currentIndex).coordenadas_pino_gabarito;
+			if (pinos) {
+				setMarkers([new OpenSeadragon.Point(pinos[0], pinos[1])]);
+			}
 			desenharOverlays();
 		});
 
-		// Clique para adicionar marcador
+		// Clique para adicionar marcador manual
 		viewer.addHandler("canvas-click", (event) => {
 			event.preventDefaultAction = true; // Evita zoom no clique
 			const webPoint = event.position;
