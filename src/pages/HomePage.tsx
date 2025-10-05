@@ -13,15 +13,15 @@ const HomePage: React.FC = () => {
 		const imagens = {
 			data: [
 				{
-					diretorio: "public/tiles/night-sky_files/14/7_2.jpeg",
+					diretorio: "tiles/night-sky_files/14/7_2.jpeg",
 					coordenadas_quadrado: [0.14, -0.015, 0.15, 0.15],
 				},
 				{
-					diretorio: "public/tiles/night-sky_files/14/6_8.jpeg",
+					diretorio: "tiles/night-sky_files/14/6_8.jpeg",
 					coordenadas_quadrado: [0.10, 0.10, 0.15, 0.15],
 				},
 				{
-					diretorio: "public/tiles/night-sky_files/14/26_0.jpeg",
+					diretorio: "tiles/night-sky_files/14/26_0.jpeg",
 					coordenadas_quadrado: [0.60, -0.025, 0.15, 0.15],
 				},
 			],
