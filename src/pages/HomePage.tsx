@@ -173,13 +173,13 @@ const HomePage: React.FC = () => {
 						onClick={toggleGabarito}
 						style={{ marginTop: "10px", padding: "5px 10px", borderRadius: "5px" }}
 					>
-						{gabaritoVisivel ? "Ocultar Gabarito" : "Mostrar Gabarito"}
+						{gabaritoVisivel ? "Hide markers" : "Show markers"}
 					</button>
 					<button
 						onClick={limparMarkers}
 						style={{ marginTop: "10px", padding: "5px 10px", borderRadius: "5px" }}
 					>
-						Limpar Marcadores
+						Clear player's markers
 					</button>
 				</div>
 			</div>
