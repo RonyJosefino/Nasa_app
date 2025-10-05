@@ -16,14 +16,17 @@ const HomePage: React.FC = () => {
 				{
 					diretorio: "tiles/night-sky_files/14/7_2.jpeg",
 					coordenadas_quadrado: [0.14, -0.015, 0.15, 0.15],
+					coordenadas_pino_gabarito: [0.6419981297168088, 0.012578777486416545],
 				},
 				{
 					diretorio: "tiles/night-sky_files/14/6_8.jpeg",
 					coordenadas_quadrado: [0.10, 0.10, 0.15, 0.15],
+					coordenadas_pino_gabarito: [0.1739653969924779, 0.0593560143486153],
 				},
 				{
 					diretorio: "tiles/night-sky_files/14/26_0.jpeg",
 					coordenadas_quadrado: [0.60, -0.025, 0.15, 0.15],
+					coordenadas_pino_gabarito: [0.15690454395618236, 0.21051408682326955],
 				},
 			],
 		};
