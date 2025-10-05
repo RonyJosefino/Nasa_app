@@ -4,6 +4,15 @@ import "./HomePage.css";
 import Sidebar from "../components/Sidebar";
 
 const HomePage: React.FC = () => {
+	const imagens = {
+		data: [
+			{
+				diretorio: "public/tiles/night-sky_files/14/7_2.jpeg",
+				coordenadas_quadrado: [0.14, -0.015, 0.15, 0.15],
+			},
+		],
+	};
+
 	const viewerRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -29,7 +38,7 @@ const HomePage: React.FC = () => {
 		viewer.addHandler("open", () => {
 			const positions = [
 				// Posições relativas (x, y, largura, altura)
-				new OpenSeadragon.Rect(0.0, 0.05, 0.15, 0.15), // esquerda
+				new OpenSeadragon.Rect(imagens.data[0].coordenadas_quadrado), // esquerda
 				// new OpenSeadragon.Rect(0.38, 0.0, 0.15, 0.2), // esquerda
 				// new OpenSeadragon.Rect(0.08, 0.0, 0.2, 0.1), // esquerda
 			];
@@ -76,7 +85,7 @@ const HomePage: React.FC = () => {
 			</div>
 			<div>
 				<div className="overlay-top-right">
-					<img src="public/tiles/night-sky_files/16/19_21.jpeg" alt="logo" />
+					<img src={imagens.data[0].diretorio} alt="logo" />
 				</div>
 			</div>
 		</div>
