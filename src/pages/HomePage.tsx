@@ -94,7 +94,9 @@ const HomePage: React.FC = () => {
 				location: point,
 				placement: OpenSeadragon.OverlayPlacement.CENTER,
 			});
-			console.log("Marker at:", point); // Ponto de referência global do viewer do OpenSeaDragon.
+			console.log("Marker at:", point); // Ponto de referência global do viewer do OpenSeaDragon.    
+			// preciso usar essa referencia como ponto de ancoragem do marcador na imagem, 
+			// que está referente a localizaçao do click do mouse
 		});
 	};
 
