@@ -18,8 +18,8 @@ const HomePage: React.FC = () => {
 					coordenadas_quadrado: [0.10, 0.10, 0.15, 0.15],
 				},
 				{
-					diretorio: "public/tiles/night-sky_files/14/7_2.jpeg",
-					coordenadas_quadrado: [0.14, -0.015, 0.5, 0.5],
+					diretorio: "public/tiles/night-sky_files/14/26_0.jpeg",
+					coordenadas_quadrado: [0.60, -0.025, 0.15, 0.15],
 				},
 				{
 					diretorio: "public/tiles/night-sky_files/14/7_2.jpeg",
@@ -59,7 +59,7 @@ const HomePage: React.FC = () => {
 		viewer.addHandler("open", () => {
 			const positions = [
 				// Posições relativas (x, y, largura, altura)
-				new OpenSeadragon.Rect(...getImagemByIndex(1).coordenadas_quadrado), // esquerda
+				new OpenSeadragon.Rect(...getImagemByIndex(2).coordenadas_quadrado), // esquerda
 				// new OpenSeadragon.Rect(0.38, 0.0, 0.15, 0.2), // esquerda
 				// new OpenSeadragon.Rect(0.08, 0.0, 0.2, 0.1), // esquerda
 			];
@@ -106,7 +106,7 @@ const HomePage: React.FC = () => {
 			</div>
 			<div>
 				<div className="overlay-top-right">
-					<img src={getImagemByIndex(1).diretorio} alt="logo" />
+					<img src={getImagemByIndex(2).diretorio} alt="logo" />
 				</div>
 			</div>
 		</div>
