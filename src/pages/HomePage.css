@@ -1,31 +1,16 @@
-/* src/pages/HomePage.css */
-
 .home-container {
-  width: 100vw;
+  display: flex;
   height: 100vh;
-  background-size: cover; /* Garante que a imagem cubra toda a área */
-  background-position: center center; /* Centraliza a imagem */
-  background-repeat: no-repeat; /* Evita repetição */
-
-  display: flex; /* Para centralizar o conteúdo da HomePage */
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  color: white; /* Cor do texto padrão da HomePage */
-  font-family: 'Montserrat', sans-serif; /* Usamos a mesma fonte do LandingScreen */
-  text-align: center;
-
-  overflow: hidden; /* Previne barras de rolagem */
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+  background-color: #000;
 }
 
-.home-container h1 {
-  font-size: clamp(2em, 5vw, 4em);
-  margin-bottom: 20px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+.viewer-container {
+  flex: 1;
 }
 
-.home-container p {
-  font-size: clamp(1em, 2vw, 1.5em);
-  opacity: 0.9;
+.openseadragon-container {
+  outline: none !important;
 }
