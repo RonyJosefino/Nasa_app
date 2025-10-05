@@ -28,9 +28,10 @@ const HomePage: React.FC = () => {
 		// 🔧 Quando a imagem abrir, adiciona os 3 quadrados
 		viewer.addHandler("open", () => {
 			const positions = [
-				new OpenSeadragon.Rect(0.2, 0.4, 0.1, 0.1), // esquerda
-				new OpenSeadragon.Rect(0.5, 0.5, 0.1, 0.1), // centro
-				new OpenSeadragon.Rect(0.8, 0.6, 0.1, 0.1), // direita
+				// Posições relativas (x, y, largura, altura)
+				new OpenSeadragon.Rect(0.68, 0.0, 0.3, 0.2), // esquerda
+				new OpenSeadragon.Rect(0.38, 0.0, 0.15, 0.2), // esquerda
+				new OpenSeadragon.Rect(0.08, 0.0, 0.2, 0.1), // esquerda
 			];
 
 			positions.forEach((pos, i) => {
