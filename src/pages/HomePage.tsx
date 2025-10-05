@@ -1,4 +1,3 @@
-// src/pages/HomePage.tsx
 import React, { useEffect, useRef } from "react";
 import OpenSeadragon from "openseadragon";
 import "./HomePage.css";
@@ -12,19 +11,45 @@ const HomePage: React.FC = () => {
 
 		const viewer = OpenSeadragon({
 			element: viewerRef.current,
-			prefixUrl: "/openseadragon-images/", // ícones padrão
-			tileSources: "/tiles/night-sky.dzi", // arquivo gerado pelo script de tiles
-			showNavigator: true, // mini-mapa
+			prefixUrl: "/openseadragon-images/",
+			tileSources: "/tiles/night-sky.dzi",
+			showNavigator: true,
 			navigatorPosition: "BOTTOM_RIGHT",
 			maxZoomPixelRatio: 2,
 			visibilityRatio: 1,
 			constrainDuringPan: true,
 			minZoomLevel: 0,
 			zoomPerScroll: 1.3,
-			// 👇 Desativa os botões de controle
 			showZoomControl: false,
 			showFullPageControl: false,
 			showHomeControl: false,
+		});
+
+		// 🔧 Quando a imagem abrir, adiciona os 3 quadrados
+		viewer.addHandler("open", () => {
+			const positions = [
+				new OpenSeadragon.Rect(0.2, 0.4, 0.1, 0.1), // esquerda
+				new OpenSeadragon.Rect(0.5, 0.5, 0.1, 0.1), // centro
+				new OpenSeadragon.Rect(0.8, 0.6, 0.1, 0.1), // direita
+			];
+
+			positions.forEach((pos, i) => {
+				const square = document.createElement("div");
+				square.id = `red-square-${i}`;
+				square.style.border = "3px solid red";
+				square.style.width = "100px";
+				square.style.height = "100px";
+				square.style.background = "transparent";
+				square.style.position = "absolute";
+				square.style.pointerEvents = "none";
+				square.style.zIndex = "10";
+
+				viewer.addOverlay({
+					element: square,
+					location: pos,
+					placement: OpenSeadragon.OverlayPlacement.CENTER,
+				});
+			});
 		});
 
 		return () => viewer.destroy();
@@ -46,10 +71,6 @@ const HomePage: React.FC = () => {
 					zIndex: 0,
 				}}
 			/>
-    <div className = "overlay-top-right"> 
-        <img src = "public/cards/RHCP.png" alt = "logo"/>
-    </div>
-
 		</div>
 	);
 };
