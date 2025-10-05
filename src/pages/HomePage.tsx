@@ -94,6 +94,7 @@ const HomePage: React.FC = () => {
 				location: point,
 				placement: OpenSeadragon.OverlayPlacement.CENTER,
 			});
+			console.log("Marker at:", point); // Ponto de referência global do viewer do OpenSeaDragon.
 		});
 	};
 
