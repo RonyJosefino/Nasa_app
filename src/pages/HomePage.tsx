@@ -3,6 +3,9 @@ import OpenSeadragon from "openseadragon";
 import "./HomePage.css";
 import Sidebar from "../components/Sidebar";
 
+
+
+
 const HomePage: React.FC = () => {
 	const viewerRef = useRef<HTMLDivElement>(null);
 
@@ -29,9 +32,9 @@ const HomePage: React.FC = () => {
 		viewer.addHandler("open", () => {
 			const positions = [
 				// Posições relativas (x, y, largura, altura)
-				new OpenSeadragon.Rect(0.68, 0.0, 0.3, 0.2), // esquerda
-				new OpenSeadragon.Rect(0.38, 0.0, 0.15, 0.2), // esquerda
-				new OpenSeadragon.Rect(0.08, 0.0, 0.2, 0.1), // esquerda
+				new OpenSeadragon.Rect(0.0, 0.05, 0.15, 0.15), // esquerda
+				// new OpenSeadragon.Rect(0.38, 0.0, 0.15, 0.2), // esquerda
+				// new OpenSeadragon.Rect(0.08, 0.0, 0.2, 0.1), // esquerda
 			];
 
 			positions.forEach((pos, i) => {
