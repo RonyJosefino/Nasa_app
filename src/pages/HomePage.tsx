@@ -3,15 +3,9 @@ import OpenSeadragon from "openseadragon";
 import "./HomePage.css";
 import Sidebar from "../components/Sidebar";
 
+import ImageList from "../imageList.jsx";
+
 const HomePage: React.FC = () => {
-	const imagens = {
-		data: [
-			{
-				diretorio: "public/tiles/night-sky_files/14/7_2.jpeg",
-				coordenadas_quadrado: [0.14, -0.015, 0.15, 0.15],
-			},
-		],
-	};
 
 	const viewerRef = useRef<HTMLDivElement>(null);
 
@@ -38,7 +32,7 @@ const HomePage: React.FC = () => {
 		viewer.addHandler("open", () => {
 			const positions = [
 				// Posições relativas (x, y, largura, altura)
-				new OpenSeadragon.Rect(imagens.data[0].coordenadas_quadrado), // esquerda
+				new OpenSeadragon.Rect(ImageList.data[0].position), // esquerda
 				// new OpenSeadragon.Rect(0.38, 0.0, 0.15, 0.2), // esquerda
 				// new OpenSeadragon.Rect(0.08, 0.0, 0.2, 0.1), // esquerda
 			];
@@ -85,7 +79,7 @@ const HomePage: React.FC = () => {
 			</div>
 			<div>
 				<div className="overlay-top-right">
-					<img src={imagens.data[0].diretorio} alt="logo" />
+					<img src={ImageList.data[0].path} alt="logo" />
 				</div>
 			</div>
 		</div>
