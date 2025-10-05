@@ -57,8 +57,8 @@ const HomePage: React.FC = () => {
 		// Desenha todos os marcadores
 		markers.forEach((point) => {
 			const circle = document.createElement("div");
-			circle.style.width = "20px";
-			circle.style.height = "20px";
+			circle.style.width = "10px";
+			circle.style.height = "10px";
 			circle.style.borderRadius = "50%";
 			circle.style.background = "red";
 			circle.style.border = "2px solid white";
@@ -69,6 +69,7 @@ const HomePage: React.FC = () => {
 				location: point,
 				placement: OpenSeadragon.OverlayPlacement.CENTER,
 			});
+			console.log("Marcador adicionado em:", point);
 		});
 	};
 
