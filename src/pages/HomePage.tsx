@@ -14,15 +14,17 @@ const HomePage: React.FC = () => {
 			element: viewerRef.current,
 			prefixUrl: "/openseadragon-images/", // ícones padrão
 			tileSources: "/tiles/night-sky.dzi", // arquivo gerado pelo script de tiles
-			showNavigator: true,
+			showNavigator: true, // mini-mapa
 			navigatorPosition: "BOTTOM_RIGHT",
 			maxZoomPixelRatio: 2,
 			visibilityRatio: 1,
 			constrainDuringPan: true,
 			minZoomLevel: 0,
 			zoomPerScroll: 1.3,
-			showZoomControl: true,
-			showFullPageControl: true,
+			// 👇 Desativa os botões de controle
+			showZoomControl: false,
+			showFullPageControl: false,
+			showHomeControl: false,
 		});
 
 		return () => viewer.destroy();
@@ -44,6 +46,10 @@ const HomePage: React.FC = () => {
 					zIndex: 0,
 				}}
 			/>
+    <div className = "overlay-top-right"> 
+        <img src = "public/cards/RHCP.png" alt = "logo"/>
+    </div>
+
 		</div>
 	);
 };
