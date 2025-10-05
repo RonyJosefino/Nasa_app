@@ -3,6 +3,7 @@ import React from 'react';
 import './HomePage.css';
 import homeBackground from '../assets/home-background.jpg';
 import Sidebar from '../components/Sidebar'; // <-- 1. Importe o Sidebar
+import WebGLCanvas from "../gl.jsx";
 
 const HomePage: React.FC = () => {
   return (
@@ -13,6 +14,7 @@ const HomePage: React.FC = () => {
       <Sidebar /> {/* <-- 2. Adicione o componente aqui */}
       
       {/* O resto da sua página pode vir aqui no futuro */}
+      <WebGLCanvas />
     </div>
   );
 };

@@ -17,6 +17,7 @@
   text-align: center;
 
   overflow: hidden; /* Previne barras de rolagem */
+  margin: 0px;
 }
 
 .home-container h1 {
@@ -28,4 +29,9 @@
 .home-container p {
   font-size: clamp(1em, 2vw, 1.5em);
   opacity: 0.9;
+}
+
+canvas {
+	width: 100%;
+	height: 100%;
 }
