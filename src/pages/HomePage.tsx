@@ -3,15 +3,42 @@ import OpenSeadragon from "openseadragon";
 import "./HomePage.css";
 import Sidebar from "../components/Sidebar";
 
-import ImageList from "../imageList.jsx";
 
 const HomePage: React.FC = () => {
+	
+	const getImagemByIndex = (index: number) => {
+		const imagens = {
+			data: [
+				{
+					diretorio: "public/tiles/night-sky_files/14/7_2.jpeg",
+					coordenadas_quadrado: [0.14, -0.015, 0.15, 0.15],
+				},
+				{
+					diretorio: "public/tiles/night-sky_files/14/7_2.jpeg",
+					coordenadas_quadrado: [0.14, -0.015, 0.5, 0.5],
+				},
+				{
+					diretorio: "public/tiles/night-sky_files/14/7_2.jpeg",
+					coordenadas_quadrado: [0.14, -0.015, 0.5, 0.5],
+				},
+				{
+					diretorio: "public/tiles/night-sky_files/14/7_2.jpeg",
+					coordenadas_quadrado: [0.14, -0.015, 0.5, 0.5],
+				},
+				{
+					diretorio: "public/tiles/night-sky_files/14/7_2.jpeg",
+					coordenadas_quadrado: [0.14, -0.015, 0.5, 0.5],
+				},
+			],
+		};
+		return imagens.data[index];
+	};
 
 	const viewerRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		if (!viewerRef.current) return;
-
+		
 		const viewer = OpenSeadragon({
 			element: viewerRef.current,
 			prefixUrl: "/openseadragon-images/",
@@ -32,7 +59,7 @@ const HomePage: React.FC = () => {
 		viewer.addHandler("open", () => {
 			const positions = [
 				// Posições relativas (x, y, largura, altura)
-				new OpenSeadragon.Rect(ImageList.data[0].position), // esquerda
+				new OpenSeadragon.Rect(...getImagemByIndex(0).coordenadas_quadrado), // esquerda
 				// new OpenSeadragon.Rect(0.38, 0.0, 0.15, 0.2), // esquerda
 				// new OpenSeadragon.Rect(0.08, 0.0, 0.2, 0.1), // esquerda
 			];
@@ -79,7 +106,7 @@ const HomePage: React.FC = () => {
 			</div>
 			<div>
 				<div className="overlay-top-right">
-					<img src={ImageList.data[0].path} alt="logo" />
+					<img src={getImagemByIndex(0).diretorio} alt="logo" />
 				</div>
 			</div>
 		</div>
