@@ -143,7 +143,7 @@ const HomePage: React.FC = () => {
 			desenharOverlays();
 		});
 
-		viewer.addHandler("canvas-click", async (event) => {
+		viewer.addHandler("canvas-click", (event) => {
 			const mouseEvent = event.originalEvent as MouseEvent;
 			if (!mouseEvent.ctrlKey) return;
 
@@ -151,7 +151,7 @@ const HomePage: React.FC = () => {
 			const webPoint = event.position;
 			const viewportPoint = viewer.viewport.pointFromPixel(webPoint);
 
-			const texto = prompt("Digite sua anotação:");
+			const texto = prompt("Type your marker:");
 			if (!texto) return;
 
 			setMarcadores((prev) => [...prev, { point: viewportPoint, texto }]);
