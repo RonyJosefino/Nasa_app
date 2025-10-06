@@ -223,7 +223,7 @@ const HomePage: React.FC = () => {
 						onClick={toggleQuadrado}
 						style={{ padding: "5px 10px", borderRadius: "5px", height: "40px" }}
 					>
-						{quadradoVisivel ? "Hide red square" : "Show red square"}
+						{quadradoVisivel ? "Leave gaming mode" : "Enter gaming mode"}
 					</button>
 					<button
 						type="button"
@@ -261,7 +261,20 @@ const HomePage: React.FC = () => {
 					zIndex: 100,
 				}}
 			>
-				<h3>Marker's annotation</h3>
+				<div
+					style={{
+						display: "flex",
+						justifyContent: "space-between",
+						alignItems: "center",
+						width: "500px",
+						flexWrap: "wrap",
+						gap: "10px",
+					}}
+				>
+					<h3>
+						Marker's annotation <br /> Press CTRL + left click <br /> to make new annotations
+					</h3>
+				</div>
 				{marcadores.length === 0 && <p>No annotations made</p>}
 				<ol style={{ paddingLeft: "20px" }}>
 					{marcadores.map((m, i) => (
