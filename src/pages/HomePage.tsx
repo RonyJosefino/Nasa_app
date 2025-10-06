@@ -172,7 +172,6 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="home-container">
-      <Sidebar />
       <div
         ref={viewerRef}
         className="viewer-container"
