@@ -39,6 +39,7 @@ const HomePage: React.FC = () => {
     return imagens.data[index];
   };
 
+  // Função que desenha todos os overlays
   const desenharOverlays = () => {
     const viewer = viewerInstance.current;
     if (!viewer || viewer.isOpen() === false || !viewer.drawer) return;
@@ -83,23 +84,36 @@ const HomePage: React.FC = () => {
       });
     }
 
-    // Marcadores do jogador
-    marcadores.forEach((m) => {
+    // Marcadores do jogador com número
+    marcadores.forEach((m, index) => {
+      const container = document.createElement("div");
+      container.style.position = "relative";
+      container.style.pointerEvents = "none";
+
       const circle = document.createElement("div");
-      circle.style.width = "10px";
-      circle.style.height = "10px";
+      circle.style.width = "20px";
+      circle.style.height = "20px";
       circle.style.borderRadius = "50%";
       circle.style.background = "red";
       circle.style.border = "2px solid white";
-      circle.style.pointerEvents = "none";
+      circle.style.display = "flex";
+      circle.style.alignItems = "center";
+      circle.style.justifyContent = "center";
+      circle.style.color = "white";
+      circle.style.fontSize = "12px";
+      circle.innerText = (index + 1).toString();
+
+      container.appendChild(circle);
+
       viewer.addOverlay({
-        element: circle,
+        element: container,
         location: m.point,
         placement: OpenSeadragon.OverlayPlacement.CENTER,
       });
     });
   };
 
+  // Inicializa OpenSeadragon
   useEffect(() => {
     if (!viewerRef.current || viewerInstance.current) return;
 
@@ -144,11 +158,13 @@ const HomePage: React.FC = () => {
     };
   }, []);
 
+  // Redesenha overlays quando mudam marcadores ou índice
   useEffect(() => {
     const id = setTimeout(() => desenharOverlays(), 50);
     return () => clearTimeout(id);
   }, [marcadores, currentIndex, gabaritoVisivel]);
 
+  // Navegação e controles
   const handlePrev = () => setCurrentIndex((prev) => (prev === 0 ? 2 : prev - 1));
   const handleNext = () => setCurrentIndex((prev) => (prev === 2 ? 0 : prev + 1));
   const toggleGabarito = () => setGabaritoVisivel((prev) => !prev);
@@ -199,7 +215,7 @@ const HomePage: React.FC = () => {
         </div>
       </div>
 
-      {/* Lista lateral de marcadores */}
+      {/* Lista lateral de marcadores numerada */}
       <div
         style={{
           position: "fixed",
@@ -215,18 +231,22 @@ const HomePage: React.FC = () => {
           zIndex: 100,
         }}
       >
-        <h3>Marcadores</h3>
-        {marcadores.length === 0 && <p>Nenhum marcador</p>}
-        <ul style={{ listStyle: "none", padding: 0 }}>
+        <h3>Marker's annotation</h3>
+        {marcadores.length === 0 && <p>No annotations made</p>}
+        <ol style={{ paddingLeft: "20px" }}>
           {marcadores.map((m, i) => (
-            <li key={i} style={{ marginBottom: "5px", cursor: "pointer" }} onClick={() => {
-              viewerInstance.current?.viewport.panTo(m.point);
-              viewerInstance.current?.viewport.zoomTo(2);
-            }}>
+            <li
+              key={i}
+              style={{ marginBottom: "5px", cursor: "pointer" }}
+              onClick={() => {
+                viewerInstance.current?.viewport.panTo(m.point);
+                viewerInstance.current?.viewport.zoomTo(2);
+              }}
+            >
               {m.texto}
             </li>
           ))}
-        </ul>
+        </ol>
       </div>
     </div>
   );
