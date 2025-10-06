@@ -14,7 +14,7 @@ const HomePage: React.FC = () => {
   const viewerInstance = useRef<OpenSeadragon.Viewer | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [marcadores, setMarcadores] = useState<Marcador[]>([]);
-  const [gabaritoVisivel, setGabaritoVisivel] = useState(true);
+  const [gabaritoVisivel, setGabaritoVisivel] = useState(false);
 
   const getImagemByIndex = (index: number) => {
     const imagens = {
