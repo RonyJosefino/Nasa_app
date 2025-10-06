@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import OpenSeadragon from "openseadragon";
 import "./HomePage.css";
-import Sidebar from "../components/Sidebar";
 
 interface Marcador {
 	point: OpenSeadragon.Point;
@@ -68,7 +67,7 @@ const HomePage: React.FC = () => {
 			viewer.addOverlay({
 				element: square,
 				location: pos,
-				placement: OpenSeadragon.OverlayPlacement.CENTER,
+				placement: OpenSeadragon.Placement.CENTER,
 			});
 		}
 
@@ -85,7 +84,7 @@ const HomePage: React.FC = () => {
 			viewer.addOverlay({
 				element: gabaritoCircle,
 				location: new OpenSeadragon.Point(x, y),
-				placement: OpenSeadragon.OverlayPlacement.CENTER,
+				placement: OpenSeadragon.Placement.CENTER,
 			});
 		}
 
@@ -113,7 +112,7 @@ const HomePage: React.FC = () => {
 			viewer.addOverlay({
 				element: container,
 				location: m.point,
-				placement: OpenSeadragon.OverlayPlacement.CENTER,
+				placement: OpenSeadragon.Placement.CENTER,
 			});
 		});
 	};
@@ -145,7 +144,8 @@ const HomePage: React.FC = () => {
 		});
 
 		viewer.addHandler("canvas-click", async (event) => {
-			if (!event.originalEvent.ctrlKey) return;
+			const mouseEvent = event.originalEvent as MouseEvent;
+			if (!mouseEvent.ctrlKey) return;
 
 			event.preventDefaultAction = true;
 			const webPoint = event.position;

@@ -2,10 +2,13 @@
   "name": "package.json",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://gitname.github.io/react-gh-pages",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "lint": "eslint .",
     "preview": "vite preview"
   },
